@@ -1,0 +1,305 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\begin{document}
+\setcounter{secnumdepth}{0}
+\section{1}
+
+Implement linear regression using gradient descent from scratch.
+
+Dataset: California Housing Dataset (built into scikit-learn)
+
+Part A: Implement the following in your code:
+
+Hypothesis: $h(x) = w_0 + w_1 x$
+
+Loss: $E(w) = \frac{1}{2N} \sum (h(x_i) - y_i)^2$
+
+Gradient: $\frac{\partial E}{\partial w} = \frac{1}{N} X^T (\text{predictions} - y)$
+
+Update: $w = w - \alpha \frac{\partial E}{\partial w}$
+
+Train with $\alpha = 0.01$, 1000 iterations, first 1000 samples. Report: Final loss, weights $(w_0, w_1)$, loss vs iteration plot.
+
+Part B: Learning Rate Analysis
+
+Run gradient descent with $\alpha \in \{0.001, 0.01, 0.1, 0.5\}$
+
+Report: Loss curves (all on one plot). Which $\alpha$ works best? Which fails? Why?
+
+Part C: Re-run Part B without StandardScaler (use raw features).
+
+Compare: Plot Scaled (Part B) vs Unscaled loss curves. Which learning rates fail without scaling? Why does scaling matter? When is it important?
+Starter code:
+
+\begin{verbatim}
+import numpy as np
+from sklearn.datasets import fetch_california_housing
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+housing = fetch_california_housing()
+X = housing.data[:1000, [0]]
+y = housing.target[:1000]
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+X_b = np.c_[np.ones((1000, 1)), X_scaled]
+w = np.zeros(2)
+alpha = 0.01
+iterations = 1000
+losses = []
+
+for i in range(iterations):
+    # TODO: part A
+    pass
+
+# TODO: Part B
+# TODO: Part C
+\end{verbatim}
+
+\section{1 Solution}
+
+[Your solution for Question 1 goes here]
+
+\section{2}
+
+Part A: Three coins: $p = 0.3, 0.5, 0.7$
+
+For each coin, simulate N flips ($N = 10, 50, 100, 500$):
+
+Use np.random.binomial() with random\_state=42
+
+Estimate p using ML: $p_{\text{ML}} = \frac{\text{number of heads}}{\text{number of flips}}$
+
+Calculate error: $|p_{\text{estimated}} - p_{\text{true}}|$
+
+Part B: Create 3 plots:
+
+Error vs N (3 lines, one per coin)
+
+Likelihood function $L(p)$ for one experiment
+
+Running estimate convergence ($N=100$)
+
+Part C:
+
+How many flips for error $< 0.05$?
+
+Why does error decrease with N?
+
+Do all coins converge at same rate?
+
+\section{2 Solution}
+
+[Your solution for Question 2 goes here]
+
+\section{3}
+
+Part A: Derivation
+
+Given the hypothesis function $h(x) = w_0 + w_1 x$
+
+and the error function $E(w_0, w_1) = \frac{1}{2N} \sum (h(x_i) - t_i)^2$
+
+Derive the following and show all steps:
+
+$\frac{\partial E}{\partial w_0}$
+
+$\frac{\partial E}{\partial w_1}$
+
+Part B: Manual Calculation
+
+Dataset: $(1, 3), (2, 5), (3, 7)$
+
+Initial values: $w_0 = 0, w_1 = 0$
+
+Learning rate: $\alpha = 0.1$
+
+Compute the following:
+
+Initial loss $E(0, 0)$
+
+Values of $\frac{\partial E}{\partial w_0}$ and $\frac{\partial E}{\partial w_1}$ at $(0, 0)$
+
+Updated weights after one gradient descent step
+
+New loss after the update
+
+Show all calculations.
+
+Part C: Answer briefly
+
+What are the optimal values of $(w_0^*, w_1^*)$ for this dataset?
+
+What happens if the learning rate $\alpha = 10$?
+
+\section{3 Solution}
+
+[Your solution for Question 3 goes here]
+
+\section{4}
+
+Part A: Implementation
+
+Dataset: Iris (sepal length, sepal width $\rightarrow$ petal length)
+
+4 hypotheses:
+
+H1: $w=[1.0, 0.5, -0.3]$
+
+H2: $w=[2.0, -0.4, 0.8]$
+
+H3: $w=[-1.0, 1.2, 0.6]$
+
+H4: $w=[0.5, 0.9, -0.5]$
+
+Implement:
+
+predict\_single(X, w) - loop-based prediction
+
+predict\_vectorized(X, W) - matrix multiplication for all 4 at once
+
+Compare computation time
+
+Part B: 
+
+All 4 predictions on scatter plot
+
+Loss (MSE) per hypothesis
+
+Time comparison
+
+Part C: 
+
+Why is vectorized faster?
+
+Which hypothesis is best?
+
+When does vectorization matter?
+
+\section{4 Solution}
+
+[Your solution for Question 4 goes here]
+
+\section{5}
+
+Part A: Email Spam Detection
+
+5\% of emails are spam. A spam filter is:
+
+92\% accurate at detecting spam (true positive)
+
+88\% accurate at detecting legitimate email (true negative)
+
+Calculate by hand:
+
+$P(\text{spam} \mid \text{flagged as spam})$
+
+$P(\text{legitimate} \mid \text{flagged as spam})$
+
+$P(\text{spam} \mid \text{flagged as legitimate})$
+
+Show all steps using Bayes' theorem.
+
+Part B: Weather Prediction
+
+Given historical data:
+
+$P(\text{cloudy}) = 0.35$, $P(\text{sunny}) = 0.65$
+
+$P(\text{rain} \mid \text{cloudy}) = 0.7$, $P(\text{no rain} \mid \text{cloudy}) = 0.3$
+
+$P(\text{rain} \mid \text{sunny}) = 0.15$, $P(\text{no rain} \mid \text{sunny}) = 0.85$
+
+It rains today. Calculate:
+
+$P(\text{cloudy} \mid \text{rain})$
+
+$P(\text{sunny} \mid \text{rain})$
+
+It doesn't rain. Calculate:
+
+$P(\text{cloudy} \mid \text{no rain})$
+
+$P(\text{sunny} \mid \text{no rain})$
+
+Show all work.
+
+Part C: Analysis
+
+Why might $P(\text{spam} \mid \text{flagged})$ be lower than expected?
+
+How does prior probability affect posterior?
+
+When is Bayes' theorem useful in ML?
+
+\section{5 Solution}
+
+[Your solution for Question 5 goes here]
+
+\section{6}
+
+You're classifying medical X-rays as ``tumor'' or ``healthy'' using two features: tissue density and irregularity score. Training data shows class overlap in the 5-7 density range.
+
+Part A: 
+
+A complex curved boundary achieves 98\% training accuracy. A simple linear boundary achieves 85\% training accuracy.
+
+Which would you deploy on new patients and why? Reference the bias-variance tradeoff from Lecture 2.
+
+Part B: 
+
+Some cases remain ambiguous (density=6, irregularity=5 could be either class).
+
+Why does this ambiguity exist? Would adding more features guarantee perfect separation?
+
+Part C: Cost-Sensitive Decisions
+
+False Negative (miss tumor): Patient doesn't get treatment
+
+False Positive (false alarm): Unnecessary biopsy
+
+How should this cost asymmetry affect your decision boundary placement?
+
+\section{6 Solution}
+
+[Your solution for Question 6 goes here]
+\section{7}
+
+You're building a model to predict house prices using a dataset of 500 homes. You've trained two models:
+
+Model A: Simple Linear Regression (just square footage)
+
+Training Error: \$45,000
+
+Test Error: \$46,000
+
+Model B: 8th-degree Polynomial Regression (square footage with polynomial features)
+
+Training Error: \$5,000
+
+Test Error: \$65,000
+
+Which model suffers from high bias? Which suffers from high variance? Explain briefly.
+
+\section{7 Solution}
+
+[Your solution for Question 7 goes here]
+
+\section{8}
+
+You're working on two linear regression projects:
+
+Project A: 50,000 customers, 100 features
+
+Project B: 200 deliveries, 3 features
+
+Question: For each project, would you use gradient descent (iterative) or closed-form solution? Explain your reasoning based on the dataset characteristics.
+
+\section{8 Solution}
+
+[Your solution for Question 8 goes here]
+\end{document}
